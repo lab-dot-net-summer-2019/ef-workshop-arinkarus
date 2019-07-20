@@ -38,11 +38,5 @@ namespace SamuraiApp.Data
 
             base.OnModelCreating(modelBuilder);
         }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseLazyLoadingProxies().UseSqlServer(
-                 "Server=DESKTOP-MABFP66;Database=SamuraiAppDataCore;Trusted_Connection=True;");
-        }
     }
 }

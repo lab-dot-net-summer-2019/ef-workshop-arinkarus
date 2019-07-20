@@ -35,7 +35,8 @@ namespace WebApp.Controllers
 
             //TODO
             //Get single Samurai, including quotes and SecretIdentity with id = id (query param)
-
+            var samurai = await _context.Samurais.Include(s => s.SecretIdentity)
+               .Include(s => s.Quotes).FirstOrDefaultAsync(s => s.Id == id);
             if (samurai == null)
             {
                 return NotFound();
@@ -60,6 +61,8 @@ namespace WebApp.Controllers
             {
                 //TODO
                 //Add samurai
+                await _context.AddAsync(samurai);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(samurai);
@@ -75,7 +78,8 @@ namespace WebApp.Controllers
 
             //TODO
             //Get single Samurai with quotes and SecretIdentity with id = id (query param)
-
+            Samurai samurai = await _context.Samurais.Include(s => s.Quotes).Include(s => s.SecretIdentity)
+             .FirstOrDefaultAsync();
             if (samurai == null) {
                 return NotFound();
             }
@@ -96,8 +100,8 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    //TODO
-                    //Update samurai 
+                    this._context.Entry(samurai).State = EntityState.Modified;
+                    await this._context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -125,6 +129,7 @@ namespace WebApp.Controllers
 
             //TODO
             //Get single Samurai with id = id (query param)
+            var samurai = await _context.Samurais.FindAsync(id);
 
             if (samurai == null) {
                 return NotFound();
@@ -141,7 +146,9 @@ namespace WebApp.Controllers
             //TODO
             //Get single Samurai with id = id (query param)
             //and remove
-
+            var samurai = await _context.Samurais.FindAsync(id);
+            this._context.Remove(samurai);
+            await this._context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
