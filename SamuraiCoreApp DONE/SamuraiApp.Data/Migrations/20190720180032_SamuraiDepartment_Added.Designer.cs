@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SamuraiApp.Data;
 
 namespace SamuraiApp.Data.Migrations
 {
     [DbContext(typeof(SamuraiContext))]
-    partial class SamuraiContextModelSnapshot : ModelSnapshot
+    [Migration("20190720180032_SamuraiDepartment_Added")]
+    partial class SamuraiDepartment_Added
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,8 +29,7 @@ namespace SamuraiApp.Data.Migrations
 
                     b.Property<DateTime>("EndDate");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(120);
+                    b.Property<string>("Name");
 
                     b.Property<DateTime>("StartDate");
 
@@ -45,10 +46,7 @@ namespace SamuraiApp.Data.Migrations
 
                     b.Property<int>("SamuraiId");
 
-                    b.Property<string>("Text")
-                        .HasColumnName("QuoteText")
-                        .HasColumnType("nvarchar")
-                        .HasMaxLength(50);
+                    b.Property<string>("Text");
 
                     b.HasKey("Id");
 
@@ -61,21 +59,13 @@ namespace SamuraiApp.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("SamuraiId")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("Name")
-                        .HasMaxLength(50);
+                    b.Property<string>("Name");
 
-                    b.Property<int?>("SamuraiDepartmentId")
-                        .HasColumnName("SamuraiDepartmentId");
+                    b.Property<int?>("SamuraiDepartmentId");
 
-                    b.Property<string>("Surname")
-                        .IsRequired()
-                        .HasColumnName("Surname")
-                        .HasMaxLength(50);
+                    b.Property<string>("Surname");
 
                     b.HasKey("Id");
 
@@ -103,8 +93,7 @@ namespace SamuraiApp.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(40);
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 
@@ -117,8 +106,7 @@ namespace SamuraiApp.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("RealName")
-                        .HasMaxLength(40);
+                    b.Property<string>("RealName");
 
                     b.Property<int>("SamuraiId");
 
@@ -135,15 +123,14 @@ namespace SamuraiApp.Data.Migrations
                     b.HasOne("SamuraiApp.Domain.Samurai", "Samurai")
                         .WithMany("Quotes")
                         .HasForeignKey("SamuraiId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("SamuraiApp.Domain.Samurai", b =>
                 {
                     b.HasOne("SamuraiApp.Domain.SamuraiDepartment", "SamuraiDepartment")
                         .WithMany("Samurais")
-                        .HasForeignKey("SamuraiDepartmentId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("SamuraiDepartmentId");
                 });
 
             modelBuilder.Entity("SamuraiApp.Domain.SamuraiBattle", b =>
@@ -156,12 +143,12 @@ namespace SamuraiApp.Data.Migrations
                     b.HasOne("SamuraiApp.Domain.Samurai", "Samurai")
                         .WithMany("SamuraiBattles")
                         .HasForeignKey("SamuraiId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("SamuraiApp.Domain.SecretIdentity", b =>
                 {
-                    b.HasOne("SamuraiApp.Domain.Samurai", "Samurai")
+                    b.HasOne("SamuraiApp.Domain.Samurai")
                         .WithOne("SecretIdentity")
                         .HasForeignKey("SamuraiApp.Domain.SecretIdentity", "SamuraiId")
                         .OnDelete(DeleteBehavior.Cascade);

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SamuraiApp.Data;
 
 namespace SamuraiApp.Data.Migrations
 {
     [DbContext(typeof(SamuraiContext))]
-    partial class SamuraiContextModelSnapshot : ModelSnapshot
+    [Migration("20190720220224_DescriptionOfSamurai")]
+    partial class DescriptionOfSamurai
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,8 +29,7 @@ namespace SamuraiApp.Data.Migrations
 
                     b.Property<DateTime>("EndDate");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(120);
+                    b.Property<string>("Name");
 
                     b.Property<DateTime>("StartDate");
 
@@ -45,10 +46,7 @@ namespace SamuraiApp.Data.Migrations
 
                     b.Property<int>("SamuraiId");
 
-                    b.Property<string>("Text")
-                        .HasColumnName("QuoteText")
-                        .HasColumnType("nvarchar")
-                        .HasMaxLength(50);
+                    b.Property<string>("Text");
 
                     b.HasKey("Id");
 
@@ -103,8 +101,7 @@ namespace SamuraiApp.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(40);
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 
@@ -117,8 +114,7 @@ namespace SamuraiApp.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("RealName")
-                        .HasMaxLength(40);
+                    b.Property<string>("RealName");
 
                     b.Property<int>("SamuraiId");
 

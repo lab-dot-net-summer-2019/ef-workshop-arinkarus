@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SamuraiApp.Data.DBMap;
 using SamuraiApp.Domain;
 
 namespace SamuraiApp.Data
 {
-    public class SamuraiContext:DbContext
+    public class SamuraiContext : DbContext
     {
         public SamuraiContext()
         {
@@ -14,27 +15,25 @@ namespace SamuraiApp.Data
         { }
         
 
+        public DbSet<SamuraiDepartment> SamuraiDepartments { get; set; }
         public DbSet<Samurai> Samurais { get; set; }
         public DbSet<Quote> Quotes { get; set; }
         public DbSet<Battle> Battles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<SamuraiBattle>()
-                .HasKey(s => new { s.BattleId, s.SamuraiId });
-
-            //modelBuilder.Entity<SamuraiBattle>()
-            //    .Property(sb => sb.KillStreak);
-
-            modelBuilder.Entity<SamuraiBattle>()
-                .HasOne(sb => sb.Battle)
-                .WithMany(b => b.SamuraiBattles)
-                .HasForeignKey(sb => new { sb.BattleId });
-
-            modelBuilder.Entity<SamuraiBattle>()
-                .HasOne(sb => sb.Samurai)
-                .WithMany(s => s.SamuraiBattles)
-                .HasForeignKey(sb => new { sb.SamuraiId });
+            modelBuilder
+                .ApplyConfiguration(new SamuraiBattleMap());
+            modelBuilder
+                .ApplyConfiguration(new SamuraiMap());
+            modelBuilder
+                .ApplyConfiguration(new QuoteMap());
+            modelBuilder
+                .ApplyConfiguration(new SecretIdentityMap());
+            modelBuilder
+                .ApplyConfiguration(new SamuraiDepartmentMap());
+            modelBuilder
+                .ApplyConfiguration(new BattleMap());
 
             base.OnModelCreating(modelBuilder);
         }
